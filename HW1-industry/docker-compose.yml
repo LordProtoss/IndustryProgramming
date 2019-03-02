@@ -1,0 +1,26 @@
+version: '3'
+services:
+    rabbit:
+      image: "rabbitmq:3-management"
+    producer:
+      environment:
+       - PYTHONUNBUFFERED=1
+      depends_on:
+       - rabbit
+      build: 
+        context: "./producer"
+      volumes:
+       - .:/code
+      links:
+       - rabbit
+    consumer:
+      environment:
+       - PYTHONUNBUFFERED=1
+      depends_on:
+       - rabbit
+      build: 
+        context: "./consumer"
+      volumes:
+       - .:/code
+      links:
+       - rabbit
